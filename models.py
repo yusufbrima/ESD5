@@ -4,23 +4,23 @@ import torchvision.models as models
 import torch.nn.functional as F
 import torchaudio
 
-class CustomResNet18(nn.Module):
+class CustomCNNModel(nn.Module):
     """
-    A custom ResNet-18 model that accepts a single input channel and outputs a specified number of classes.
+    A customized CNN model that accepts a single input channel and outputs a specified number of classes.
 
     Attributes:
-        base_model (nn.Module): The base ResNet-18 model with modifications.
+        base_model (nn.Module): The base CNN model with modifications.
     """
     
     def __init__(self, num_classes, weights=None, modelstr='resnet18'):
         """
-        Initializes the custom ResNet-18 model with a single input channel and a custom number of output classes.
+        Initializes the custom model with a single input channel and a custom number of output classes.
 
         Parameters:
             num_classes (int): The number of output classes for the final classification layer.
             weights (str, optional): The type of pre-trained weights to use (e.g., 'IMAGENET1K_V1').
         """
-        super(CustomResNet18, self).__init__()
+        super(CustomCNNModel, self).__init__()
         
         # Load the ResNet-18 model, optionally with pre-trained weights
         if modelstr == 'resnet18':
@@ -59,53 +59,7 @@ class CustomResNet18(nn.Module):
         return self.base_model(x)
 
 
-class ESC50Model(nn.Module):
-  def __init__(self, input_shape, num_cats=5):
-    super().__init__()
-    self.conv1 = nn.Conv2d(1, 32, kernel_size = 3, stride=1, padding=1)
-    self.bn1 = nn.BatchNorm2d(32)
-    self.conv2 = nn.Conv2d(32, 32, kernel_size = 3, stride=1, padding=1)
-    self.bn2 = nn.BatchNorm2d(32)
-    self.conv3 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
-    self.bn3 = nn.BatchNorm2d(64)
-    self.conv4 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
-    self.bn4 = nn.BatchNorm2d(64)
-    self.conv5 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
-    self.bn5 = nn.BatchNorm2d(128)
-    self.conv6 = nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1)
-    self.bn6 = nn.BatchNorm2d(128)
-    self.conv7 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
-    self.bn7 = nn.BatchNorm2d(256)
-    self.conv8 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
-    self.bn8 = nn.BatchNorm2d(256)
-    self.dense1 = nn.Linear(256*(((input_shape[1]//2)//2)//2)*(((input_shape[2]//2)//2)//2),500)
-    self.dropout = nn.Dropout(0.5)
-    self.dense2 = nn.Linear(500, num_cats)
-  def forward(self, x):
-    x = self.conv1(x)
-    x = F.relu(self.bn1(x))
-    x = self.conv2(x)
-    x = F.relu(self.bn2(x))
-    x = F.max_pool2d(x, kernel_size=2) 
-    x = self.conv3(x)
-    x = F.relu(self.bn3(x))
-    x = self.conv4(x)
-    x = F.relu(self.bn4(x))
-    x = F.max_pool2d(x, kernel_size=2)
-    x = self.conv5(x)
-    x = F.relu(self.bn5(x))
-    x = self.conv6(x)
-    x = F.relu(self.bn6(x))
-    x = F.max_pool2d(x, kernel_size=2)
-    x = self.conv7(x)
-    x = F.relu(self.bn7(x))
-    x = self.conv8(x)
-    x = F.relu(self.bn8(x))
-    x = x.view(x.size(0),-1)
-    x = F.relu(self.dense1(x))
-    x = self.dropout(x)
-    x = self.dense2(x)
-    return x
+
 # Example usage
 if __name__ == "__main__":
     pass

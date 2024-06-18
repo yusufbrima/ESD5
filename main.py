@@ -10,7 +10,7 @@ import torchvision.models as models
 import numpy as np
 from torch.utils.data import DataLoader,random_split
 from dataset import ESC50Dataset,ESC50SpectrogramDataset
-from models import CustomResNet18,ESC50Model
+from models import CustomCNNModel
 from config import FINAL_META_DATA,AUDIO_PATH,BATCH_SIZE,LEARNING_RATE,EPOCHS,SEED,MODELS_PATH,RESULTS_PATH
 from utils import train_model,test_model,EarlyStopping,plot_confusion_matrix
 
@@ -20,7 +20,7 @@ from utils import train_model,test_model,EarlyStopping,plot_confusion_matrix
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-modelstr = 'dense121'
+modelstr = 'resnet18'
 
 if __name__ == "__main__":
     
@@ -47,8 +47,8 @@ if __name__ == "__main__":
     input_shape = sample['data'].shape[1:]  
 
     num_classes = len(dataset.label_to_idx)
-    # Define the custom ResNet-18 model with 10 output classes
-    model = CustomResNet18(num_classes=num_classes, weights=None, modelstr=modelstr)
+    # Define the customized vision model with 5 output classes
+    model = CustomCNNModel(num_classes=num_classes, weights=None, modelstr=modelstr)
     # model = ESC50Model(input_shape=input_shape, num_cats=num_classes)
     model = model.to(device)
 
@@ -89,10 +89,5 @@ if __name__ == "__main__":
     test_results_df = pd.DataFrame(test_results, index=[0])
     test_results_df.to_csv(f'{RESULTS_PATH}/{modelstr}_test_results.csv', index=False)
     print(f'Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.4f}')
-
-
-    # Plot and save the confusion matrix
-    plot_confusion_matrix(all_labels.numpy(), all_preds.numpy(), dataset.CLASSES, modelstr=modelstr)
-
 
 

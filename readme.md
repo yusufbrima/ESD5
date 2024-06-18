@@ -117,33 +117,91 @@ The evaluation metrics include:
 - **Test Accuracy**: The percentage of correct predictions on the test set.
 - **Confusion Matrix**: A matrix to visualize the performance of the classifier across all classes.
 
-### Example Evaluation Result
+### Top-1 Test Evaluation
 
-```
-Test Loss: 0.5835982573032379
-Test Accuracy: 0.80
-```
+| Model      | Test Loss     | Test Accuracy |
+|------------|----------------|---------------|
+| DenseNet121| 0.4892         | 84.50%        |
+| ResNet18   | 0.6841         | 75.50%        |
+
+
 
 ## Results
 
 Training and validation loss and accuracy history are saved as CSV files. The test results and confusion matrix are also saved and displayed.
 
-### Confusion Matrix
+### Confusion Matrices
 
-![Confusion Matrix](figures/dense121_confusion_matrix.png)
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <div style="flex: 1; text-align: center; margin-right: 10px;">
+        <figure>
+            <img src="figures/dense121_confusion_matrix.png" alt="DenseNet121 Confusion Matrix" style="max-width: 100%;">
+            <figcaption>DenseNet121 Confusion Matrix</figcaption>
+        </figure>
+    </div>
+    <div style="flex: 1; text-align: center; margin-left: 10px;">
+        <figure>
+            <img src="figures/resnet18_confusion_matrix.png" alt="ResNet18 Confusion Matrix" style="max-width: 100%;">
+            <figcaption>ResNet18 Confusion Matrix</figcaption>
+        </figure>
+    </div>
+</div>
 
-### Training and Validation Loss
+### Training and Validation Curves
 
-![Training and Validation Loss](figures/dense121_loss.png)
+#### DenseNet
 
-### Training and Validation Accuracy
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <div style="flex: 1; text-align: center; margin-right: 10px;">
+        <figure>
+            <img src="figures/dense121_loss.png" alt="DenseNet121 Training and Validation Loss" style="max-width: 100%;">
+            <figcaption>DenseNet121 Training and Validation Loss</figcaption>
+        </figure>
+    </div>
+    <div style="flex: 1; text-align: center; margin-left: 10px;">
+        <figure>
+            <img src="figures/dense121_accuracy.png" alt="DenseNet121 Training and Validation Accuracy" style="max-width: 100%;">
+            <figcaption>DenseNet121 Training and Validation Accuracy</figcaption>
+        </figure>
+    </div>
+</div>
 
-![Training and Validation Accuracy](figures/dense121_accuracy.png)
+#### ResNet
+
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <div style="flex: 1; text-align: center; margin-right: 10px;">
+        <figure>
+            <img src="figures/resnet18_loss.png" alt="ResNet18 Training and Validation Loss" style="max-width: 100%;">
+            <figcaption>ResNet18 Training and Validation Loss</figcaption>
+        </figure>
+    </div>
+    <div style="flex: 1; text-align: center; margin-left: 10px;">
+        <figure>
+            <img src="figures/resnet18_accuracy.png" alt="ResNet18 Training and Validation Accuracy" style="max-width: 100%;">
+            <figcaption>ResNet18 Training and Validation Accuracy</figcaption>
+        </figure>
+    </div>
+</div>
 
 
 ### Sample Predictions
 
-![Sample Predictions](figures/random_log_spectrogram_samples_predictions.png)
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <div style="flex: 1; text-align: center; margin-right: 10px;">
+        <figure>
+            <img src="figures/random_log_spectrogram_samples_predictions.png" alt="DenseNet121 Predictions" style="max-width: 100%;">
+            <figcaption>DenseNet121 Predictions</figcaption>
+        </figure>
+    </div>
+    <div style="flex: 1; text-align: center; margin-left: 10px;">
+        <figure>
+            <img src="figures/resnet18_random_log_spectrogram_samples_predictions.png" alt="ResNet18 Predictions" style="max-width: 100%;">
+            <figcaption>ResNet18 Predictions</figcaption>
+        </figure>
+    </div>
+</div>
+
+
 
 ## Visualization
 
@@ -155,6 +213,40 @@ Visualizations of audio samples, predictions, and plots are available in `Play.i
 - Training and evaluation plots
 - Confusion matrix
 
+
+## Ablation Studies
+
+#### DenseNet
+
+| Configuration                                        | Test Accuracy |
+|------------------------------------------------------|---------------|
+| Standard Model                                       | 0.73          |
+| With Weight Decay                                    | 0.76          |
+| With Learning Rate Decay (LR=0.0001) 20 epochs       | 0.81          |
+| With Learning Rate Decay (LR=0.001) 20 epochs        | 0.75          |
+| With Learning Rate Decay (LR=0.0001) 40 epochs       | 0.8250        |
+| With Learning Rate Decay (LR=0.001) 40 epochs        | 0.71          |
+| With Learning Rate Decay (LR=0.0002) 20 epochs       | 0.77          |
+| With Learning Rate Decay (LR=0.0001) 20 epochs w/o log transforms | 0.32          |
+
+#### ResNet18
+
+| Configuration                                        | Test Accuracy |
+|------------------------------------------------------|---------------|
+| With Learning Rate Decay (LR=0.0001) 20 epochs       | 0.78          |
+| With Learning Rate Decay (LR=0.001) 20 epochs        | 0.71          |
+
+#### Model from scratch
+
+| Configuration                                        | Test Accuracy |
+|------------------------------------------------------|---------------|
+| With Learning Rate Decay (LR=0.0001) 20 epochs       | 0.58          |
+
+#### DenseNet121 with Early Stopping
+
+| Configuration                                        | Test Accuracy |
+|------------------------------------------------------|---------------|
+| With Learning Rate Decay (LR=0.0001) 20 epochs       | 0.8350        |
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
