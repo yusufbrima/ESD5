@@ -1,0 +1,13 @@
+name: esc50
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pytorch::pytorch
+  - torchaudio
+  - torchvision
+  - librosa
+  - conda-forge::tqdm
+  - pandas
+  - ipykernel
+  - seaborn
