@@ -1,6 +1,6 @@
 # ESC-50 Audio Classification
 
-This project focuses on classifying environmental audio recordings from the ESC-50 dataset into 5 major categories using a custom ResNet-18 model.
+This project focuses on classifying environmental audio recordings from the ESC-50 dataset into 5 major categories using a customized 2D CNN model using log spectograms.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ This project focuses on classifying environmental audio recordings from the ESC-
 
 ## Project Overview
 
-The goal of this project is to classify audio samples from the ESC-50 dataset into 5 major categories:
+The goal of this project is to classify audio samples from the ESC-50 dataset into ```5 major categories``` with ```400 samples per category```. The categories are as follows:
 - Animals
 - Natural soundscapes
 - Interior/domestic sounds
@@ -30,7 +30,7 @@ We use a custom ResNet-18 model, data augmentation techniques, and various train
 
 ## Dataset
 
-The ESC-50 dataset is a labeled collection of 2000 environmental audio recordings organized into 50 classes, with 40 samples per class. The dataset is used for various audio processing tasks and is available at: [ESC-50 dataset](https://github.com/karoldvl/ESC-50).
+The ESC-50 dataset is a labeled collection of ```2000``` environmental audio recordings organized into ```50 classes```, with 40 samples per class. The dataset is used for various audio processing tasks and is available at: [ESC-50 dataset](https://github.com/karoldvl/ESC-50). However, the dataset is reorganized into ```5 major categories``` for this project.
 
 ## Requirements
 
@@ -48,8 +48,8 @@ The ESC-50 dataset is a labeled collection of 2000 environmental audio recording
 
 1. Clone this repository:
     ```sh
-    git clone https://github.com/yourusername/esc50-audio-classification.git
-    cd esc50-audio-classification
+    git clone https://github.com/yusufbrima/ESD5.git
+    cd ESD5
     ```
 
 2. Create a Conda environment and activate it:
@@ -86,9 +86,8 @@ python main.py
 
 This will:
 - Load and preprocess the ESC-50 dataset.
-- Combine the 50 classes into 5 major categories.
 - Split the dataset into training, validation, and test sets.
-- Train the ResNet-18 model with data augmentation.
+- Train the CNN model.
 - Save the trained model and results.
 
 ### Evaluation
@@ -99,14 +98,13 @@ After training, the model is evaluated on the test set. The script will output t
 
 To visualize samples (in time-domain, time-frequency domain), predictions, train/eval plots, and confusion matrix, use the Jupyter Notebook:
 ```sh
-jupyter notebook Play.ipynb
+jupyter notebook Visualize.ipynb
 ```
 
 ## Model Training
 
 The model training involves:
-- **Data Augmentation**: Using `torchaudio` transformations such as volume adjustment, time stretching, and masking.
-- **Custom ResNet-18**: Modifying the ResNet-18 architecture to handle spectrogram inputs.
+- **Customized 2D CNN**: Modifying the CNN architecture to handle log spectrogram inputs.
 - **Early Stopping**: Stopping the training if the validation loss does not improve for a certain number of epochs.
 - **Learning Rate Scheduling**: Adjusting the learning rate during training for better convergence.
 
@@ -205,7 +203,7 @@ Training and validation loss and accuracy history are saved as CSV files. The te
 
 ## Visualization
 
-Visualizations of audio samples, predictions, and plots are available in `Play.ipynb`. These include:
+Visualizations of audio samples, predictions, and plots are available in `Visualize.ipynb`. These include:
 
 - Time-domain representations
 - Time-frequency domain representations (spectrograms)

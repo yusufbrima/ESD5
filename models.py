@@ -34,7 +34,7 @@ class CustomCNNModel(nn.Module):
         
             # Modify the final fully connected layer to output the specified number of classes
             self.base_model.fc = nn.Linear(self.base_model.fc.in_features, num_classes)
-        else:
+        elif modelstr == 'dense121':
             self.base_model = models.densenet121(weights=weights)
             # Modify the first convolutional layer to accept 1 channel instead of 3
             self.base_model.features.conv0 = nn.Conv2d(1, self.base_model.features.conv0.out_channels,
@@ -44,6 +44,10 @@ class CustomCNNModel(nn.Module):
                                           bias=False)
             # Modify the final fully connected layer to output the specified number of classes
             self.base_model.classifier = nn.Linear(self.base_model.classifier.in_features, num_classes)
+        else:
+            self.base_model = models.efficientnet_b0(weights=weights)
+            self.base_model.features[0][0]  = torch.nn.Conv2d(1, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            self.base_model.classifier = torch.nn.Linear(in_features=1280, out_features=num_classes, bias=True)
     
 
     def forward(self, x):

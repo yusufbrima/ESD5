@@ -20,7 +20,7 @@ from utils import train_model,test_model,EarlyStopping,plot_confusion_matrix
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-modelstr = 'resnet18'
+modelstr = 'efficientnet_b0'
 
 if __name__ == "__main__":
     
